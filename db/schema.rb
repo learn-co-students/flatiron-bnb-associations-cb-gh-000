@@ -41,6 +41,8 @@ ActiveRecord::Schema.define(version: 20170822171455) do
   create_table "reservations", force: :cascade do |t|
     t.string   "checkin"
     t.string   "checkout"
+    t.integer  "listing_id"
+    t.integer  "guest_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -48,8 +50,10 @@ ActiveRecord::Schema.define(version: 20170822171455) do
   create_table "reviews", force: :cascade do |t|
     t.text     "description"
     t.integer  "rating"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.integer  "guest_id"
+    t.integer  "reservation_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   create_table "users", force: :cascade do |t|
