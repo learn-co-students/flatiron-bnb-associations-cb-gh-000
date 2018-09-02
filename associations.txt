@@ -1,0 +1,49 @@
+User Spec:
+
+  params = name:string
+
+  Listing belongs_to: User(host)
+  user(host) has_many: Listings
+  user(guest) has_many: Reservations(trips)
+
+  user(host) has_many: Reservations, through: Listing
+  user(host) has_many: Reviews
+
+Listing Spec:
+
+  params = title:string,  description:text, address:string, listing_type:string, price:float,
+
+  Listing belongs_to: Neighborhood
+  Neighborhood has_many: Listings
+  Listing belongs_to: user(host)
+  Listing has_many: Reservations
+  Listing has_many: reviews, through: Reservations
+  Listing has_many users(guests) through Reservations
+
+Reservation Spec: rails g model reservation checkin:string checkout:string listing_id:integer guest_id:integer
+
+  params = checkin:string, checkout:string listing_id:integer, guest_id:integer
+
+  Reservation belongs_to: user(guest)
+  Reservation belongs_to: Listing
+
+Neighborhood Spec: rails g model neighborhood name:string city_id:integer --no-test-framework
+
+  params = name:string, city_id:integer
+
+  Neighbordhood has_many: Listings
+  Neighborhood belongs_to: City
+
+City Spec: rails g model city name:string --no-test-framework
+
+  params = name:string
+
+  City has_many: neighborhoods
+  City has_many: Listings, through: Neighborhood
+
+Review Spec:
+
+  params = description:text, rating:integer, guest_id:integer, reservation_id:integer
+
+  Review belongs_to: user(guest)
+  Review belongs_to: Reservation
